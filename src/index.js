@@ -1,17 +1,16 @@
 // const inquirer = require("inquirer").default;
 const promptSync = require("prompt-sync")();
 
-console.log("Dice Roller Application Starts...")
+console.log("Dice Roller Application starts...")
 
 /**
  * Roll a random dice side from a variable-sided dice
- * @param {number} diceSide=6 - the total number of sides
- * @returns {number} - the side of the dice rolled
+ * @param {number} [diceSide=6] The total number of sides in the dice
+ * @returns {number} The side of the dice rolled
  */
-
 function rollDice(diceSide=6) {
     if (diceSide <= 0) {
-        throw new Error("Dice must be greater than 0.")
+        throw new Error("Dice side must be greater than 0.");
     }
     let diceResult = 0;
     diceResult = Math.ceil(Math.random() * diceSide);
@@ -32,16 +31,19 @@ function rollDice(diceSide=6) {
 //     console.log(rollDice(answer.dice_side))
 // });
 
-const diceSide = promptSync("How many sided dice do you want to roll? ");
-
-try {
-    const parsedDiceSide = parseInt(diceSide);
-    if (isNaN(parsedDiceSide)) {
-        throw new Error('Please enter a valid number.');
+function getDiceSide(){
+    const diceSide = promptSync("How many sided dice do you want to roll? ");
+    try {
+        const parsedDiceSide = parseInt(diceSide);
+        if (isNaN(parsedDiceSide)) {
+            throw new Error('Please enter a valid number.');
+        }
+        const diceResult = rollDice(parsedDiceSide);
+        console.log(`You rolled a ${diceResult}-sided dice.`);
+    } catch (error) {
+        console.error("You got an error!");
+        console.log(error);
     }
-    const diceResult = rollDice(parsedDiceSide);
-    console.log(`You rolled a ${diceResult}-sided dice.`);
-} catch (error) {
-    console.error("You got an error!");
-    console.log(error);
 }
+
+getDiceSide();
